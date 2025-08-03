@@ -1,158 +1,89 @@
-<!DOCTYPE html>
-<html lang=en>
+<!DOCTYPE HTML>
+<html>
 <head>
-    <!-- so meta -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="HandheldFriendly" content="True">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="TFT   -&gt;  TFT_espi注意：此库需要手动配置h头文件适配 NodeMCU-ESP8266使用TFT_eSPI库驱动IC为ST7735的1.44寸TFT屏幕（TFT_eSPI详解）_esp8266驱动st7735-CSDN博客 st7739GND-GND VCC-3V3 SCL-D5 SDA-D7 RST-D2 DC-D1 CS-D3 BL-3V3 User_Setup.h 12">
-<meta property="og:type" content="article">
-<meta property="og:title" content="esp8266项目接线记录">
-<meta property="og:url" content="http://example.com/2025/08/03/esp8266%E9%A1%B9%E7%9B%AE%E6%8E%A5%E7%BA%BF%E8%AE%B0%E5%BD%95/index.html">
-<meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="TFT   -&gt;  TFT_espi注意：此库需要手动配置h头文件适配 NodeMCU-ESP8266使用TFT_eSPI库驱动IC为ST7735的1.44寸TFT屏幕（TFT_eSPI详解）_esp8266驱动st7735-CSDN博客 st7739GND-GND VCC-3V3 SCL-D5 SDA-D7 RST-D2 DC-D1 CS-D3 BL-3V3 User_Setup.h 12">
-<meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2025-08-03T13:40:07.000Z">
-<meta property="article:modified_time" content="2025-08-03T13:54:21.654Z">
-<meta property="article:author" content="John Doe">
-<meta name="twitter:card" content="summary">
-    
-    
-      
-        
-          <link rel="shortcut icon" href="/images/favicon.ico">
-        
-      
-      
-        
-          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
-        
-      
-      
-        
-          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
-        
-      
-    
-    <!-- title -->
-    <title>esp8266项目接线记录</title>
-    <!-- async scripts -->
-    <!-- Google Analytics -->
+  <meta charset="utf-8">
+  
+  <title>esp8266项目接线记录 | Hexo</title>
 
-
-    <!-- Umami Analytics -->
-
-
-    <!-- styles -->
-    
-<link rel="stylesheet" href="/css/style.css">
-
-    <!-- persian styles -->
-    
-    <!-- rss -->
-    
-    
-	<!-- mathjax -->
-	
-<meta name="generator" content="Hexo 7.3.0"></head>
-
-<body class="max-width mx-auto px3 ltr">
-    
-      <div id="header-post">
-  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
-  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
-  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
-  <span id="menu">
-    <span id="nav">
-      <ul>
-        <!--
-       --><li><a href="/">Home</a></li><!--
-     --><!--
-       --><li><a href="/about/">About</a></li><!--
-     --><!--
-       --><li><a href="/archives/">Writing</a></li><!--
-     --><!--
-       --><li><a target="_blank" rel="noopener" href="http://github.com/probberechts">Projects</a></li><!--
-     -->
-      </ul>
-    </span>
-    <br/>
-    <span id="actions">
-      <ul>
-        
-        
-        <li><a class="icon" aria-label="Next post" href="/2025/08/03/%E6%98%8E%E6%97%A5%E6%96%B9%E8%88%9F%E8%A7%A3%E5%8C%85%E7%9A%84%E5%9F%BA%E7%A1%80%E6%B5%81%E7%A8%8B/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
-        
-        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
-        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
-      </ul>
-      <span id="i-prev" class="info" style="display:none;">Previous post</span>
-      <span id="i-next" class="info" style="display:none;">Next post</span>
-      <span id="i-top" class="info" style="display:none;">Back to top</span>
-      <span id="i-share" class="info" style="display:none;">Share post</span>
-    </span>
-    <br/>
-    <div id="share" style="display: none">
-      <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2025/08/03/esp8266%E9%A1%B9%E7%9B%AE%E6%8E%A5%E7%BA%BF%E8%AE%B0%E5%BD%95/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2025/08/03/esp8266%E9%A1%B9%E7%9B%AE%E6%8E%A5%E7%BA%BF%E8%AE%B0%E5%BD%95/&text=esp8266项目接线记录"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2025/08/03/esp8266%E9%A1%B9%E7%9B%AE%E6%8E%A5%E7%BA%BF%E8%AE%B0%E5%BD%95/&title=esp8266项目接线记录"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2025/08/03/esp8266%E9%A1%B9%E7%9B%AE%E6%8E%A5%E7%BA%BF%E8%AE%B0%E5%BD%95/&is_video=false&description=esp8266项目接线记录"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=esp8266项目接线记录&body=Check out this article: http://example.com/2025/08/03/esp8266%E9%A1%B9%E7%9B%AE%E6%8E%A5%E7%BA%BF%E8%AE%B0%E5%BD%95/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2025/08/03/esp8266%E9%A1%B9%E7%9B%AE%E6%8E%A5%E7%BA%BF%E8%AE%B0%E5%BD%95/&title=esp8266项目接线记录"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2025/08/03/esp8266%E9%A1%B9%E7%9B%AE%E6%8E%A5%E7%BA%BF%E8%AE%B0%E5%BD%95/&title=esp8266项目接线记录"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2025/08/03/esp8266%E9%A1%B9%E7%9B%AE%E6%8E%A5%E7%BA%BF%E8%AE%B0%E5%BD%95/&title=esp8266项目接线记录"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2025/08/03/esp8266%E9%A1%B9%E7%9B%AE%E6%8E%A5%E7%BA%BF%E8%AE%B0%E5%BD%95/&title=esp8266项目接线记录"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2025/08/03/esp8266%E9%A1%B9%E7%9B%AE%E6%8E%A5%E7%BA%BF%E8%AE%B0%E5%BD%95/&name=esp8266项目接线记录&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2025/08/03/esp8266%E9%A1%B9%E7%9B%AE%E6%8E%A5%E7%BA%BF%E8%AE%B0%E5%BD%95/&t=esp8266项目接线记录"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
-</ul>
-
-    </div>
-    
-    
-      <div id="toc">
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#TFT-TFT-espi"><span class="toc-number">1.</span> <span class="toc-text">TFT   -&gt;  TFT_espi</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#st7739"><span class="toc-number">1.1.</span> <span class="toc-text">st7739</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#st7735"><span class="toc-number">1.2.</span> <span class="toc-text">st7735</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#OLED-u8g2"><span class="toc-number">2.</span> <span class="toc-text">OLED -&gt; u8g2</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#8x8%E7%82%B9%E9%98%B5-LedControl"><span class="toc-number">3.</span> <span class="toc-text">8x8点阵 -&gt; LedControl</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SD%E5%8D%A1"><span class="toc-number">4.</span> <span class="toc-text">SD卡</span></a></li></ol>
-      </div>
-    
-  </span>
-</div>
-
-    
-    <div class="content index py4 ">
-        
-        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
-  <header>
-    
-    <h1 class="posttitle p-name" itemprop="name headline">
-        esp8266项目接线记录
-    </h1>
-
-
-
-    <div class="meta">
-      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
-        <span class="p-name" itemprop="name">John Doe</span>
-      </span>
-      
-    <div class="postdate">
-      
-        <time datetime="2025-08-03T13:40:07.000Z" class="dt-published" itemprop="datePublished">2025-08-03</time>
-        
-      
-    </div>
-
-
-      
-
-      
-
-    </div>
-  </header>
+  
+  <meta name="author" content="John Doe">
   
 
-  <div class="content e-content" itemprop="articleBody">
-    <h1 id="TFT-TFT-espi"><a href="#TFT-TFT-espi" class="headerlink" title="TFT   -&gt;  TFT_espi"></a>TFT   -&gt;  TFT_espi</h1><p>注意：此库需要手动配置h头文件适配</p>
+  
+  <meta name="description" content="TFT   -&amp;gt;  TFT_espi注意：此库需要手动配置h头文件适配
+NodeMCU-ESP8266使用TFT_eSPI库驱动IC为ST7735的1.44寸TFT屏幕（TFT_eSPI详解）_esp8266驱动st7735-CSDN博客
+st7739GND-GND
+VCC-3V3
+SCL-D">
+  
+
+  
+  
+  <meta name="keywords" content="">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="esp8266项目接线记录"/>
+
+  <meta property="og:site_name" content="Hexo"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">Hexo</a>
+    </h1>
+    <p class="site-description"></p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>esp8266项目接线记录</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2025/08/03/esp8266项目接线记录/" rel="bookmark">
+        <time class="entry-date published" datetime="2025-08-03T13:40:07.000Z">
+          2025-08-03
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h1 id="TFT-TFT-espi"><a href="#TFT-TFT-espi" class="headerlink" title="TFT   -&gt;  TFT_espi"></a>TFT   -&gt;  TFT_espi</h1><p>注意：此库需要手动配置h头文件适配</p>
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_43168623/article/details/117983877">NodeMCU-ESP8266使用TFT_eSPI库驱动IC为ST7735的1.44寸TFT屏幕（TFT_eSPI详解）_esp8266驱动st7735-CSDN博客</a></p>
 <h2 id="st7739"><a href="#st7739" class="headerlink" title="st7739"></a>st7739</h2><p>GND-GND</p>
 <p>VCC-3V3</p>
@@ -230,143 +161,49 @@
 </tr>
 </tbody></table>
 
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+
+    </div>
+
+    
   </div>
 </article>
 
+  
 
 
-        
-          <div id="footer-post-container">
-  <div id="footer-post">
 
-    <div id="nav-footer" style="display: none">
-      <ul>
-        
-          <li><a href="/">Home</a></li>
-        
-          <li><a href="/about/">About</a></li>
-        
-          <li><a href="/archives/">Writing</a></li>
-        
-          <li><a target="_blank" rel="noopener" href="http://github.com/probberechts">Projects</a></li>
-        
-      </ul>
-    </div>
 
+
+
+
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2025 John Doe
+    
+  </p>
+</footer>
     
     
-      <div id="toc-footer" style="display: none">
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#TFT-TFT-espi"><span class="toc-number">1.</span> <span class="toc-text">TFT   -&gt;  TFT_espi</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#st7739"><span class="toc-number">1.1.</span> <span class="toc-text">st7739</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#st7735"><span class="toc-number">1.2.</span> <span class="toc-text">st7735</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#OLED-u8g2"><span class="toc-number">2.</span> <span class="toc-text">OLED -&gt; u8g2</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#8x8%E7%82%B9%E9%98%B5-LedControl"><span class="toc-number">3.</span> <span class="toc-text">8x8点阵 -&gt; LedControl</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SD%E5%8D%A1"><span class="toc-number">4.</span> <span class="toc-text">SD卡</span></a></li></ol>
-      </div>
-    
-
-    <div id="share-footer" style="display: none">
-      <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2025/08/03/esp8266%E9%A1%B9%E7%9B%AE%E6%8E%A5%E7%BA%BF%E8%AE%B0%E5%BD%95/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2025/08/03/esp8266%E9%A1%B9%E7%9B%AE%E6%8E%A5%E7%BA%BF%E8%AE%B0%E5%BD%95/&text=esp8266项目接线记录"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2025/08/03/esp8266%E9%A1%B9%E7%9B%AE%E6%8E%A5%E7%BA%BF%E8%AE%B0%E5%BD%95/&title=esp8266项目接线记录"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2025/08/03/esp8266%E9%A1%B9%E7%9B%AE%E6%8E%A5%E7%BA%BF%E8%AE%B0%E5%BD%95/&is_video=false&description=esp8266项目接线记录"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=esp8266项目接线记录&body=Check out this article: http://example.com/2025/08/03/esp8266%E9%A1%B9%E7%9B%AE%E6%8E%A5%E7%BA%BF%E8%AE%B0%E5%BD%95/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2025/08/03/esp8266%E9%A1%B9%E7%9B%AE%E6%8E%A5%E7%BA%BF%E8%AE%B0%E5%BD%95/&title=esp8266项目接线记录"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2025/08/03/esp8266%E9%A1%B9%E7%9B%AE%E6%8E%A5%E7%BA%BF%E8%AE%B0%E5%BD%95/&title=esp8266项目接线记录"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2025/08/03/esp8266%E9%A1%B9%E7%9B%AE%E6%8E%A5%E7%BA%BF%E8%AE%B0%E5%BD%95/&title=esp8266项目接线记录"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2025/08/03/esp8266%E9%A1%B9%E7%9B%AE%E6%8E%A5%E7%BA%BF%E8%AE%B0%E5%BD%95/&title=esp8266项目接线记录"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2025/08/03/esp8266%E9%A1%B9%E7%9B%AE%E6%8E%A5%E7%BA%BF%E8%AE%B0%E5%BD%95/&name=esp8266项目接线记录&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2025/08/03/esp8266%E9%A1%B9%E7%9B%AE%E6%8E%A5%E7%BA%BF%E8%AE%B0%E5%BD%95/&t=esp8266项目接线记录"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
-</ul>
-
-    </div>
-
-    <div id="actions-footer">
-        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
-        
-          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
-        
-        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
-        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
-    </div>
-
   </div>
 </div>
-
-        
-        <footer id="footer">
-  <div class="footer-left">
-    Copyright &copy;
-    
-    
-    2016-2025
-    John Doe
-  </div>
-  <div class="footer-right">
-    <nav>
-      <ul>
-        <!--
-       --><li><a href="/">Home</a></li><!--
-     --><!--
-       --><li><a href="/about/">About</a></li><!--
-     --><!--
-       --><li><a href="/archives/">Writing</a></li><!--
-     --><!--
-       --><li><a target="_blank" rel="noopener" href="http://github.com/probberechts">Projects</a></li><!--
-     -->
-      </ul>
-    </nav>
-  </div>
-</footer>
-
-    </div>
-    <!-- styles -->
-
-
-
-  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
-
-
-    <!-- jquery -->
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
-
-
-
-
-<!-- clipboard -->
-
-  
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
-  
-  <script type="text/javascript">
-  $(function() {
-    // copy-btn HTML
-    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
-    btn += '<i class="fa-regular fa-clone"></i>';
-    btn += '</span>';
-    // mount it!
-    $(".highlight table").before(btn);
-    var clip = new ClipboardJS('.btn-copy', {
-      text: function(trigger) {
-        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
-      }
-    });
-    clip.on('success', function(e) {
-      e.trigger.setAttribute('aria-label', "Copied!");
-      e.clearSelection();
-    })
-  })
-  </script>
-
-
-<script src="/js/main.js"></script>
-
-<!-- search -->
-
-<!-- Baidu Analytics -->
-
-<!-- Cloudflare Analytics -->
-
-<!-- Disqus Comments -->
-
-<!-- utterances Comments -->
-
 </body>
 </html>
