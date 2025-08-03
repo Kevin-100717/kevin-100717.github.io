@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="vue.js - 如何丝滑实现 ChatGPT 打字机流式回复？Server-Sent Events！ - 个人文章 - SegmentFault 思否 1234567891011121314151617181920const response &#x3D; await fetch(&#x27;http:&#x2F;&#x2F;127.0.0.1:7345&#x2F;api&#x2F;gpt&#x2F;get&#x27;, &#123;    method">
+<meta property="og:type" content="article">
+<meta property="og:title" content="nodejs如何接收流式请求">
+<meta property="og:url" content="http://example.com/2025/08/03/nodejs%E5%A6%82%E4%BD%95%E6%8E%A5%E6%94%B6%E6%B5%81%E5%BC%8F%E8%AF%B7%E6%B1%82/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="vue.js - 如何丝滑实现 ChatGPT 打字机流式回复？Server-Sent Events！ - 个人文章 - SegmentFault 思否 1234567891011121314151617181920const response &#x3D; await fetch(&#x27;http:&#x2F;&#x2F;127.0.0.1:7345&#x2F;api&#x2F;gpt&#x2F;get&#x27;, &#123;    method">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2025-08-03T13:19:40.000Z">
+<meta property="article:modified_time" content="2025-08-03T13:21:33.641Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>nodejs如何接收流式请求</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/probberechts">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2025/07/28/hello-world/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2025/08/03/nodejs%E5%A6%82%E4%BD%95%E6%8E%A5%E6%94%B6%E6%B5%81%E5%BC%8F%E8%AF%B7%E6%B1%82/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2025/08/03/nodejs%E5%A6%82%E4%BD%95%E6%8E%A5%E6%94%B6%E6%B5%81%E5%BC%8F%E8%AF%B7%E6%B1%82/&text=nodejs如何接收流式请求"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2025/08/03/nodejs%E5%A6%82%E4%BD%95%E6%8E%A5%E6%94%B6%E6%B5%81%E5%BC%8F%E8%AF%B7%E6%B1%82/&title=nodejs如何接收流式请求"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2025/08/03/nodejs%E5%A6%82%E4%BD%95%E6%8E%A5%E6%94%B6%E6%B5%81%E5%BC%8F%E8%AF%B7%E6%B1%82/&is_video=false&description=nodejs如何接收流式请求"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=nodejs如何接收流式请求&body=Check out this article: http://example.com/2025/08/03/nodejs%E5%A6%82%E4%BD%95%E6%8E%A5%E6%94%B6%E6%B5%81%E5%BC%8F%E8%AF%B7%E6%B1%82/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2025/08/03/nodejs%E5%A6%82%E4%BD%95%E6%8E%A5%E6%94%B6%E6%B5%81%E5%BC%8F%E8%AF%B7%E6%B1%82/&title=nodejs如何接收流式请求"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2025/08/03/nodejs%E5%A6%82%E4%BD%95%E6%8E%A5%E6%94%B6%E6%B5%81%E5%BC%8F%E8%AF%B7%E6%B1%82/&title=nodejs如何接收流式请求"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2025/08/03/nodejs%E5%A6%82%E4%BD%95%E6%8E%A5%E6%94%B6%E6%B5%81%E5%BC%8F%E8%AF%B7%E6%B1%82/&title=nodejs如何接收流式请求"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2025/08/03/nodejs%E5%A6%82%E4%BD%95%E6%8E%A5%E6%94%B6%E6%B5%81%E5%BC%8F%E8%AF%B7%E6%B1%82/&title=nodejs如何接收流式请求"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2025/08/03/nodejs%E5%A6%82%E4%BD%95%E6%8E%A5%E6%94%B6%E6%B5%81%E5%BC%8F%E8%AF%B7%E6%B1%82/&name=nodejs如何接收流式请求&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2025/08/03/nodejs%E5%A6%82%E4%BD%95%E6%8E%A5%E6%94%B6%E6%B5%81%E5%BC%8F%E8%AF%B7%E6%B1%82/&t=nodejs如何接收流式请求"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        nodejs如何接收流式请求
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">John Doe</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2025-08-03T13:19:40.000Z" class="dt-published" itemprop="datePublished">2025-08-03</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000043926932">vue.js - 如何丝滑实现 ChatGPT 打字机流式回复？Server-Sent Events！ - 个人文章 - SegmentFault 思否</a></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> response = <span class="keyword">await</span> <span class="title function_">fetch</span>(<span class="string">&#x27;http://127.0.0.1:7345/api/gpt/get&#x27;</span>, &#123;</span><br><span class="line">    <span class="attr">method</span>: <span class="string">&quot;POST&quot;</span>,</span><br><span class="line">    <span class="attr">headers</span>: &#123;</span><br><span class="line">      <span class="string">&quot;Content-Type&quot;</span>: <span class="string">&quot;application/json&quot;</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">body</span>: <span class="title class_">JSON</span>.<span class="title function_">stringify</span>(&#123;</span><br><span class="line">      <span class="attr">message</span>: message.<span class="property">value</span>,</span><br><span class="line">      <span class="attr">role</span>: role.<span class="property">value</span>,</span><br><span class="line">    &#125;),</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (!response.<span class="property">body</span>) <span class="keyword">return</span>;</span><br><span class="line">  <span class="keyword">const</span> reader = response.<span class="property">body</span>.<span class="title function_">pipeThrough</span>(<span class="keyword">new</span> <span class="title class_">TextDecoderStream</span>()).<span class="title function_">getReader</span>();</span><br><span class="line">  <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> &#123; value, done &#125; = <span class="keyword">await</span> reader.<span class="title function_">read</span>();</span><br><span class="line">    <span class="keyword">if</span> (done) <span class="keyword">break</span>;</span><br><span class="line">    value = value?.<span class="title function_">replace</span>(<span class="string">&#x27;undefined&#x27;</span>, <span class="string">&#x27;&#x27;</span>)</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;received data -&quot;</span>, value)</span><br><span class="line">    output.<span class="property">value</span> += value?.<span class="title function_">replace</span>(<span class="string">&#x27;undefined&#x27;</span>, <span class="string">&#x27;&#x27;</span>)</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="http://github.com/probberechts">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2025/08/03/nodejs%E5%A6%82%E4%BD%95%E6%8E%A5%E6%94%B6%E6%B5%81%E5%BC%8F%E8%AF%B7%E6%B1%82/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2025/08/03/nodejs%E5%A6%82%E4%BD%95%E6%8E%A5%E6%94%B6%E6%B5%81%E5%BC%8F%E8%AF%B7%E6%B1%82/&text=nodejs如何接收流式请求"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2025/08/03/nodejs%E5%A6%82%E4%BD%95%E6%8E%A5%E6%94%B6%E6%B5%81%E5%BC%8F%E8%AF%B7%E6%B1%82/&title=nodejs如何接收流式请求"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2025/08/03/nodejs%E5%A6%82%E4%BD%95%E6%8E%A5%E6%94%B6%E6%B5%81%E5%BC%8F%E8%AF%B7%E6%B1%82/&is_video=false&description=nodejs如何接收流式请求"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=nodejs如何接收流式请求&body=Check out this article: http://example.com/2025/08/03/nodejs%E5%A6%82%E4%BD%95%E6%8E%A5%E6%94%B6%E6%B5%81%E5%BC%8F%E8%AF%B7%E6%B1%82/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2025/08/03/nodejs%E5%A6%82%E4%BD%95%E6%8E%A5%E6%94%B6%E6%B5%81%E5%BC%8F%E8%AF%B7%E6%B1%82/&title=nodejs如何接收流式请求"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2025/08/03/nodejs%E5%A6%82%E4%BD%95%E6%8E%A5%E6%94%B6%E6%B5%81%E5%BC%8F%E8%AF%B7%E6%B1%82/&title=nodejs如何接收流式请求"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2025/08/03/nodejs%E5%A6%82%E4%BD%95%E6%8E%A5%E6%94%B6%E6%B5%81%E5%BC%8F%E8%AF%B7%E6%B1%82/&title=nodejs如何接收流式请求"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2025/08/03/nodejs%E5%A6%82%E4%BD%95%E6%8E%A5%E6%94%B6%E6%B5%81%E5%BC%8F%E8%AF%B7%E6%B1%82/&title=nodejs如何接收流式请求"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2025/08/03/nodejs%E5%A6%82%E4%BD%95%E6%8E%A5%E6%94%B6%E6%B5%81%E5%BC%8F%E8%AF%B7%E6%B1%82/&name=nodejs如何接收流式请求&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2025/08/03/nodejs%E5%A6%82%E4%BD%95%E6%8E%A5%E6%94%B6%E6%B5%81%E5%BC%8F%E8%AF%B7%E6%B1%82/&t=nodejs如何接收流式请求"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2025
+    John Doe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/probberechts">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
